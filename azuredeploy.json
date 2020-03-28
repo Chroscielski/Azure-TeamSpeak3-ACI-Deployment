@@ -42,10 +42,6 @@
                             ],
                             "ports": [
                                 {
-                                    "protocol": "TCP",
-                                    "port": 80
-                                },
-                                {
                                     "protocol": "UDP",
                                     "port": 9987
                                 },
@@ -76,10 +72,6 @@
                 "restartPolicy": "OnFailure",
                 "ipAddress": {
                     "ports": [
-                        {
-                            "protocol": "TCP",
-                            "port": 80
-                        },
                         {
                             "protocol": "UDP",
                             "port": 9987
