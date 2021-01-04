@@ -5,4 +5,4 @@ This one **does not use storage account**, that should be prepared previously ac
 
 You can deploy that using the button below:
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FChroscielski%2FAzure-TeamSpeak3-ACI-Deployment%2Fmaster%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FChroscielski%2FAzure-TeamSpeak3-ACI-Deployment%2Fmaster%2Fwithout_storage%2Fazuredeploy.json)
