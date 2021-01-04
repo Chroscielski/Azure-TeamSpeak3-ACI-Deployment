@@ -1,0 +1,123 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "defaultValue": "teamspeak3server",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Container Instances resource deployed to your Azure account."
+            }
+        },
+        "subdomain": {
+            "defaultValue": "teamspeak3server",
+            "type": "String",
+            "metadata": {
+                "description": "Subdomain name. The result will be: xxx.westeurope.azurecontainer.io, where xxx is the value of the parameter. It should also be globally unique, since it is a domain."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location of the resource."
+            }
+        },
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": "teamspeak3server",
+            "metadata": {
+                "description": "Azure Storage account name"
+            }
+        },
+        "shareName": {
+            "type": "string",
+            "defaultValue": "acishare",
+            "metadata": {
+                "description": "Azure Storage File Share name"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ContainerInstance/containerGroups",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('resourceName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "containers": [
+                    {
+                        "name": "[parameters('resourceName')]",
+                        "properties": {
+                            "image": "teamspeak",
+                            "command": [],
+                            "ports": [
+                                {
+                                    "protocol": "UDP",
+                                    "port": 9987
+                                },
+                                {
+                                    "protocol": "TCP",
+                                    "port": 10011
+                                },
+                                {
+                                    "protocol": "TCP",
+                                    "port": 30033
+                                }
+                            ],
+                            "environmentVariables": [
+                                {
+                                    "name": "TS3SERVER_LICENSE",
+                                    "value": "accept"
+                                }
+                            ],
+                            "volumeMounts": [
+                                {
+                                    "name": "filesharevolume",
+                                    "mountPath": "/var/ts3server"
+                                }
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "memoryInGB": 0.5,
+                                    "cpu": 1
+                                }
+                            }
+                        }
+                    }
+                ],
+                "restartPolicy": "OnFailure",
+                "ipAddress": {
+                    "ports": [
+                        {
+                            "protocol": "UDP",
+                            "port": 9987
+                        },
+                        {
+                            "protocol": "TCP",
+                            "port": 10011
+                        },
+                        {
+                            "protocol": "TCP",
+                            "port": 30033
+                        }
+                    ],
+                    "type": "Public",
+                    "dnsNameLabel": "[parameters('subdomain')]"
+                },
+                "osType": "Linux",
+                "volumes": [
+                    {
+                        "name": "filesharevolume",
+                        "azureFile": {
+                            "shareName": "[parameters('shareName')]",
+                            "storageAccountName": "[parameters('storageAccountName')]",
+                            "storageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
