@@ -1,4 +1,4 @@
-# Azure-TeamSpeak3-ACI-Deployment with storage
+# Azure-TeamSpeak3-ACI-Deployment-with-storage
 A simple solution to deploy TeamSpeak 3 server for Azure Container Instances.
 
 This one **does not use storage account**, that should be prepared previously accordingly to [this article](https://www.chroscielski.pl/pay-as-you-go-teamspeak-3-hosting-with-azure-container-instances/).
